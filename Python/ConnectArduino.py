@@ -53,45 +53,15 @@ try:
         for case in switch(select):
             if case("start"):
                 x, y = pyautogui.position()
-                xd = 800 - x
-                x100 = xd / 100
-                x100 = math.floor(x100)
-                xn = xd % 100
-                yd = 600 - y
-                y100 = yd / 100
-                y100 = math.floor(y100)
-                yn = yd % 100
-                
-                xe = 1
-                ye = 1
-                b100 = 0
-                if (x100 < 0):
-                    xe = -1
-                xn = xe * xn
-                if (y100 < 0):
-                    ye = -1
-                yn = ye * yn
-                if (abs(x100) >= abs(y100)):
-                    b100 = x100
-                elif (abs(x100) < abs(y100)):
-                    b100 = y100
-                for i in range(abs(b100)):
-                    if ((i + 1) > abs(x100)):
-                        xe = 0
-                    elif ((i + 1) > abs(y100)):
-                        ye = 0
-                    s.write(b'Move*\r\n')
-                    s.write(str.encode('%s\r\n' % (xe * 10)))
-                    s.write(str.encode('%s\r\n' % (ye * 10)))
+                xd = 1700 - x                
+                yd = 900 - y                
                 s.write(b'Move*\r\n')
-                s.write(str.encode('%s\r\n' % xn))
-                s.write(str.encode('%s\r\n' % yn))
-                    
-                
-                
-                
-                
+                s.write(str.encode('%s\r\n' % (xd)))
+                s.write(str.encode('%s\r\n' % (yd)))
                 s.write(b'ClickRightBTN*\r\n')
+                time.sleep(1)
+                nx, ny = pyautogui.position()
+                print (nx , "," , ny)
             elif case("exit"):
                 status = False
             break
