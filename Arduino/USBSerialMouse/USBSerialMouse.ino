@@ -15,11 +15,11 @@ void loop()
 {
   if(M == 1)
   {
-    Serial.println("Please insert Xpos!");    
+    //Serial.println("Please insert Xpos!");    
   }
   else if(M == 2)
   {
-    Serial.println("Please insert Ypos!");
+    //Serial.println("Please insert Ypos!");
   }
   if (Serial.available()) 
   {   
