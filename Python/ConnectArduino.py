@@ -9,6 +9,7 @@ import serial
 import threading
 import time
 import pyautogui
+import numpy as np
 import math
 
 class switch(object):
@@ -42,6 +43,11 @@ s = serial.Serial("COM6", 9600)
 t1 = threading.Thread(target = readAD)
 status = True
 
+posx = np.array([1540,230,1320,1560,290, 795,1500,990
+,1630,925,925,1540,1160,1630,925,926,1540 ,120])
+posy = np.array([500,720,770,890,470 ,480,670,485 ,930,600
+                 ,600,950,480,930,600,601,950,100])
+
 pill2kill = threading.Event()
 t1 = threading.Thread(target=doit, args=(pill2kill, "task"))
 t1.start()
@@ -52,16 +58,21 @@ try:
         select = input("Please insert command!")
         for case in switch(select):
             if case("start"):
-                x, y = pyautogui.position()
-                xd = 1700 - x                
-                yd = 900 - y                
-                s.write(b'Move*\r\n')
-                s.write(str.encode('%s\r\n' % (xd)))
-                s.write(str.encode('%s\r\n' % (yd)))
-                s.write(b'ClickRightBTN*\r\n')
-                time.sleep(1)
-                nx, ny = pyautogui.position()
-                print (nx , "," , ny)
+                time.sleep(2)
+                for j in range(2):
+                    for i in range(len(posx)):
+                        x, y = pyautogui.position()
+                        xd = posx[i] - x                
+                        yd = posy[i] - y                
+                        s.write(b'Move*\r\n')
+                        s.write(str.encode('%s\r\n' % (xd)))
+                        s.write(str.encode('%s\r\n' % (yd)))
+                        s.write(b'ClickLeftBTN*\r\n')
+                        time.sleep(4)
+                        if ((i == 11) | (i == 16)):
+                            time.sleep(30)
+                        nx, ny = pyautogui.position()
+                        print (nx , "," , ny)
             elif case("exit"):
                 status = False
             break
