@@ -47,8 +47,28 @@ while True:
     img = ImageGrab.grab(bbox = (left, top, right, bottom))
     img_np = np.array(img)
     
-    frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("svreen box", frame)
+    tem001 = cv2.imread("Template/test/WeighAnchor.PNG", 1)
+    cv2.imshow("tem", tem001)
+    frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
+    cv2.imshow("MAIN", frame)
+    
+    try:
+        Scan = cv2.matchTemplate(frame, tem001, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(Scan)
+        cv2.imshow("SCAN", Scan)
+        print(min_val, max_val, min_loc, max_loc)
+        #corner_loc = (max_loc[0] + 50, max_loc[1] + 150)
+        #cv2.rectangle(frame, max_loc, min_loc, (0, 0, 255), 5)
+        
+        corner_loc = (max_loc[0] + 200, max_loc[1] + 200)
+        player_spot = (max_loc[0] + 25, max_loc[1] + 150)
+        cv2.circle(frame, player_spot, 10, (0, 255, 255), -1)
+        cv2.rectangle(frame, max_loc, corner_loc, (0, 0, 255), 5)
+    except:
+        print("無法抓取影像") 
+        
+    cv2.imshow("MAIN", frame)
+        
     k = cv2.waitKey(30)&0xFF
     
     if k == 27:
