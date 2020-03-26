@@ -49,8 +49,23 @@ while True:
     
     tem001 = cv2.imread("Template/test/WeighAnchor.PNG", 1)
     cv2.imshow("tem", tem001)
+    
+    frame0 = cv2.cvtColor(img_np, cv2.COLOR_BGR2HSV)
+    miny = np.array([80, 50, 50])
+    maxy = np.array([110, 255, 255])
+    mask = cv2.inRange(frame0, miny, maxy)
+    
+    #t1, thd = cv2.threshold(frame0, 127, 255, cv2.THRESH_BINARY)
+    #t2, otsu = cv2.threshold(frame0, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    #cv2.imshow("img", img)
+    #cv2.imshow("thd", thd)
+    #cv2.imshow("otsu", otsu)
+    
     frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
     cv2.imshow("MAIN", frame)
+    
+    y = cv2.bitwise_and(frame, frame, mask = mask)
+    cv2.imshow('yello', y)
     
     try:
         Scan = cv2.matchTemplate(frame, tem001, cv2.TM_CCOEFF_NORMED)
@@ -68,6 +83,8 @@ while True:
         print("無法抓取影像") 
         
     cv2.imshow("MAIN", frame)
+    
+    
         
     k = cv2.waitKey(30)&0xFF
     
